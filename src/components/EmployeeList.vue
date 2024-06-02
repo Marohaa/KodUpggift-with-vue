@@ -3,7 +3,7 @@
         <h1>Anställda</h1>
     </div>
     <div class="employee-list">
-
+<!-- Loopar igenom employees-arrayen och visar varje anställds information -->
       <div v-for="employee in employees" :key="employee.id" class="employee">
         <img :src="employee.avatar" alt="Profile Picture" class="profile-picture">
         <div class="employee-info">
@@ -11,6 +11,7 @@
           <a :href="'mailto:' + employee.email">{{ employee.email }}</a>
         </div>
       </div>
+       <!-- Visar en knapp för att ladda fler anställda om inte alla anställda är laddade -->
       <div class="button-container" v-if="!allEmployeesLoaded">
         <button @click="loadNextPage">Se alla anställda</button>
       </div>
@@ -29,9 +30,11 @@
         allEmployeesLoaded: false
       };
     },
+    // Metod som körs när komponenten skapas
     created() {
       this.fetchEmployees(this.currentPage);
     },
+     // Asynkron metod för att hämta anställda från API
     methods: {
       async fetchEmployees(page) {
         const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
@@ -41,6 +44,7 @@
           this.allEmployeesLoaded = true;
         }
       },
+      // Asynkron metod för att ladda nästa sida av anställda
       async loadNextPage() {
         this.currentPage++;
         if (this.currentPage <= this.totalPages) {
